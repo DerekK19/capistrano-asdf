@@ -36,6 +36,7 @@ If you need some special settings, set those in the stage file for your server:
 
     # deploy.rb or stage file (staging.rb, production.rb or else)
     set :asdf_custom_path, '~/.my_asdf_installation_path'  # only needed if not '~/.asdf'
+    set :asdf_custom_data, '~/.my_asdf_dat_directory'      # only needed if not '~/.asdf'
     set :asdf_tools, %w{ ruby }                            # defaults to %{ ruby nodejs }
     set :asdf_map_ruby_bins, %w{ bundle gem }              # defaults to %w{ rake gem bundle ruby rails }
     set :asdf_map_nodejs_bins, %w{ node npm }              # defaults to %w{ node npm yarn }

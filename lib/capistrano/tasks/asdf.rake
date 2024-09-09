@@ -1,4 +1,6 @@
 ASDF_USER_PATH = "~/.asdf"
+ASDF_DATA_PATH = "~/.asdf"
+
 ASDF_DEFAULT_TOOLS = %w{ruby nodejs}
 # Ruby related bins
 ASDF_DEFAULT_RUBY_BINS = %w{rake gem bundle ruby rails}
@@ -8,6 +10,8 @@ ASDF_DEFAULT_NODEJS_BINS = %w{node npm yarn}
 ASDF_DEFAULT_WRAPPER_TEMPLATES = <<~WRAPPER
   #!/usr/bin/env bash
 
+  export ASDF_DATA_DIR="@@ASDF_DATA_PATH@@"
+
   . @@ASDF_USER_PATH@@/asdf.sh
   exec "$@"
 WRAPPER
@@ -16,7 +20,7 @@ namespace :asdf do
   desc "Upload ASDF wrapper to the target host"
   task :upload_wrapper do
     on roles(fetch(:asdf_roles, :all)) do
-      wrapper_content = ASDF_DEFAULT_WRAPPER_TEMPLATES.gsub('@@ASDF_USER_PATH@@', fetch(:asdf_path))
+      wrapper_content = ASDF_DEFAULT_WRAPPER_TEMPLATES.gsub('@@ASDF_USER_PATH@@', fetch(:asdf_path)).gsub('@@ASDF_DATA_PATH@@', fetch(:asdf_data))
       need_to_upload_wrapper = true
       # Check if the wrapper already exists
       if test("[ -f #{fetch(:asdf_wrapper_path)} ]")
@@ -102,6 +106,10 @@ namespace :load do
     set :asdf_path, -> {
       asdf_path = fetch(:asdf_custom_path)
       asdf_path ||= ASDF_USER_PATH
+    }
+    set :asdf_data, -> {
+      asdf_data = fetch(:asdf_custom_data)
+      asdf_data ||= ASDF_DATA_PATH
     }
     set :asdf_wrapper_path, -> {
       fetch(:asdf_custom_wrapper_path) || "#{shared_path}/asdf-wrapper"
