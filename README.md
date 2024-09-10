@@ -36,15 +36,21 @@ If you need some special settings, set those in the stage file for your server:
 
     # deploy.rb or stage file (staging.rb, production.rb or else)
     set :asdf_custom_path, '~/.my_asdf_installation_path'  # only needed if not '~/.asdf'
-    set :asdf_custom_data, '~/.my_asdf_dat_directory'      # only needed if not '~/.asdf'
+    set :asdf_custom_data, '~/.my_asdf_data_directory'     # only needed if not '~/.asdf'
     set :asdf_tools, %w{ ruby }                            # defaults to %{ ruby nodejs }
     set :asdf_map_ruby_bins, %w{ bundle gem }              # defaults to %w{ rake gem bundle ruby rails }
     set :asdf_map_nodejs_bins, %w{ node npm }              # defaults to %w{ node npm yarn }
 
 ### Custom ASDF path: `:asdf_custom_path`
 
-If you have a custom ASDF setup with a different path then expected, you have
+If you have a custom ASDF setup with a different path than the default (~/.asdf), you have
 to define a custom ASDF path to tell capistrano where it is.
+
+### Custom ASDF data: `:asdf_custom_data`
+
+If your ASDF setup has its data stored in a different place than the default (~/.asdf), you have
+to define a custom ASDF data to sell capistrano where it is. This is equivalent to setting
+ASDF_DATA_DIR from a login script before initialising ASDF
 
 ### Custom ASDF tools selection: `:asdf_tools`
 
